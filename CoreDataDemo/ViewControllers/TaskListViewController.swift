@@ -6,10 +6,7 @@
 //
 
 import UIKit
-
-protocol TaskViewControllerDelegate {
-    func setNewTask(task: Task)
-}
+import CloudKit
 
 class TaskListViewController: UITableViewController {
     
@@ -25,12 +22,6 @@ class TaskListViewController: UITableViewController {
         setupNavigationBar()
         fetchData()
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        fetchData()
-//        tableView.reloadData()
-//    }
     
     private func setupNavigationBar() {
         title = "Task List"
@@ -60,40 +51,57 @@ class TaskListViewController: UITableViewController {
         
         navigationController?.navigationBar.tintColor = .white
     }
+}
+enum Action: String {
+    case save
+    case update
+}
+extension TaskListViewController {
+   
     
     @objc private func addNewTask() {
-        showAlert(with: "New task", and: "What do you want to do?")
+        showAlert(with: "New task", and: "What do you want to do?", action: .save)
     }
     
-//    @objc private func addNewTask() {
-//        let taskVC = TaskViewController()
-//        taskVC.delegate = self
-//        present(taskVC, animated: true)
-//    }
-    
-    private func fetchData() {
-        let fetchRequest = Task.fetchRequest()
-        
-        do{
-            taskList = try context.fetch(fetchRequest)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func showAlert(with title: String, and message: String) {
+    private func showAlert(with title: String, and message: String, text: String? = nil, index: Int? = nil, action: Action) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+       
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
             self.save(task)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        alert.addTextField { textField in
-            textField.placeholder = "New Task"
+        
+        let updateAction = UIAlertAction(title: "Update", style: .default) { _ in
+            guard let text = alert.textFields?.first?.text else { return }
+            guard let index = index else { return }
+            self.updateTask(text, index: index)
         }
+        switch action {
+        case .save:
+            alert.addAction(saveAction)
+            alert.addAction(cancelAction)
+            alert.addTextField { textField in
+                textField.placeholder = "New Task"
+            }
+        case .update:
+                alert.addAction(updateAction)
+                alert.addAction(cancelAction)
+            alert.addTextField { textField in
+                textField.text = text
+                }
+            }
         present(alert, animated: true)
+    }
+    
+    private func fetchData() {
+        let fetchRequest = Task.fetchRequest()
+        
+        do {
+            taskList = try context.fetch(fetchRequest)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     private func save(_ taskName: String) {
@@ -113,21 +121,26 @@ class TaskListViewController: UITableViewController {
         }
     }
     
-    private func deleteTask(at index: Int){
-//        context.delete(taskList[index])
-//        taskList.remove(at: index)
-        
-        
-        let objectToDelete = taskList[index]
-               taskList.remove(at: index)
-               context.delete(objectToDelete)
-        
+    private func updateTask(_ taskName: String, index: Int){
+        taskList[index].title = taskName
+        tableView.reloadData()
         if context.hasChanges {
             do {
                 try context.save()
             } catch let error {
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    private func deleteTask(at index: Int) {
+        let taskToDelete = taskList[index]
+        taskList.remove(at: index)
+        context.delete(taskToDelete)
+        do {
+            try context.save()
+        } catch let error {
+            print(error.localizedDescription)
         }
     }
 }
@@ -137,10 +150,7 @@ extension TaskListViewController {
         
         if editingStyle == .delete {
             deleteTask(at: indexPath.row)
-            //contacts.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-        } else if editingStyle == .insert {
-            print("got you")
         }
     }
 }
@@ -158,13 +168,10 @@ extension TaskListViewController {
         cell.contentConfiguration = content
         return cell
     }
-}
-
-extension TaskListViewController: TaskViewControllerDelegate {
-    func setNewTask(task: Task) {
-        //fetchData()
-        taskList.append(task)
-        tableView.reloadData()
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let task = taskList[indexPath.row]
+        showAlert(with: "Updating", and: "Update your task", text: task.title, index: indexPath.row, action: .update)
     }
 }
 

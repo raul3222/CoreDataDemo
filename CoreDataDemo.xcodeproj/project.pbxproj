@@ -60,17 +60,65 @@
 		AD8CB73B275EB4450000AFA4 /* CoreDataDemo */ = {
 			isa = PBXGroup;
 			children = (
-				AD8CB73C275EB4450000AFA4 /* AppDelegate.swift */,
-				AD8CB73E275EB4450000AFA4 /* SceneDelegate.swift */,
-				AD8CB740275EB4450000AFA4 /* TaskListViewController.swift */,
-				AD8CB748275EB4490000AFA4 /* Assets.xcassets */,
-				AD8CB74A275EB4490000AFA4 /* LaunchScreen.storyboard */,
-				AD8CB74D275EB4490000AFA4 /* Info.plist */,
-				AD8CB745275EB4450000AFA4 /* CoreDataDemo.xcdatamodeld */,
-				AD8CB753275EB8160000AFA4 /* TaskViewController.swift */,
-				AD8CB756275EBFCF0000AFA4 /* StorageManager.swift */,
+				AD8CB75E276148260000AFA4 /* App */,
+				AD8CB75B276148010000AFA4 /* ViewControllers */,
+				AD8CB75C2761480B0000AFA4 /* Resources */,
+				AD8CB75D276148130000AFA4 /* StoryBoards */,
+				AD8CB75F276149050000AFA4 /* CoreData */,
+				AD8CB75A276147EB0000AFA4 /* Services */,
 			);
 			path = CoreDataDemo;
+			sourceTree = "<group>";
+		};
+		AD8CB75A276147EB0000AFA4 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AD8CB756275EBFCF0000AFA4 /* StorageManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		AD8CB75B276148010000AFA4 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				AD8CB740275EB4450000AFA4 /* TaskListViewController.swift */,
+				AD8CB753275EB8160000AFA4 /* TaskViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		AD8CB75C2761480B0000AFA4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AD8CB748275EB4490000AFA4 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AD8CB75D276148130000AFA4 /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				AD8CB74A275EB4490000AFA4 /* LaunchScreen.storyboard */,
+			);
+			path = StoryBoards;
+			sourceTree = "<group>";
+		};
+		AD8CB75E276148260000AFA4 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				AD8CB73C275EB4450000AFA4 /* AppDelegate.swift */,
+				AD8CB73E275EB4450000AFA4 /* SceneDelegate.swift */,
+				AD8CB74D275EB4490000AFA4 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		AD8CB75F276149050000AFA4 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				AD8CB745275EB4450000AFA4 /* CoreDataDemo.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,7 +339,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RGKK797JHY;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = CoreDataDemo/Info.plist;
+				INFOPLIST_FILE = CoreDataDemo/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -318,7 +366,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RGKK797JHY;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = CoreDataDemo/Info.plist;
+				INFOPLIST_FILE = CoreDataDemo/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

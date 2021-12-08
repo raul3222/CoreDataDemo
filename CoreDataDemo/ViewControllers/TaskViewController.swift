@@ -10,7 +10,7 @@ import CoreData
 
 class TaskViewController: UIViewController {
     
-    var delegate: TaskViewControllerDelegate!
+    //var delegate: TaskViewControllerDelegate!
     private let context = StorageManager.shared.persistentContainer.viewContext
 
     private lazy var taskTextField: UITextField = {
@@ -91,7 +91,7 @@ class TaskViewController: UIViewController {
     private func save() {
         let task = Task(context: context)
         task.title = taskTextField.text
-        delegate.setNewTask(task: task)
+        //delegate.setNewTask(task: task)
         if context.hasChanges {
             do {
                 try context.save()
