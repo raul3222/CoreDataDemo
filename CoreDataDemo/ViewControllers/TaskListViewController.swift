@@ -8,6 +8,11 @@
 import UIKit
 import CloudKit
 
+enum Action {
+    case save
+    case update
+}
+
 class TaskListViewController: UITableViewController {
     
     private let cellID = "task"
@@ -52,10 +57,7 @@ class TaskListViewController: UITableViewController {
         navigationController?.navigationBar.tintColor = .white
     }
 }
-enum Action: String {
-    case save
-    case update
-}
+
 extension TaskListViewController {
    
     
