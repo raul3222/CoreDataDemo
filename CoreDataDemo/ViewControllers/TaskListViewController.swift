@@ -59,10 +59,18 @@ class TaskListViewController: UITableViewController {
 }
 
 extension TaskListViewController {
-   
-    
     @objc private func addNewTask() {
         showAlert(with: "New task", and: "What do you want to do?", action: .save)
+    }
+    
+    private func saveToContext() {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch let error {
+                print(error)
+            }
+        }
     }
     
     private func showAlert(with title: String, and message: String, text: String? = nil, index: Int? = nil, action: Action) {
@@ -89,8 +97,8 @@ extension TaskListViewController {
         case .update:
                 alert.addAction(updateAction)
                 alert.addAction(cancelAction)
-            alert.addTextField { textField in
-                textField.text = text
+                alert.addTextField { textField in
+                    textField.text = text
                 }
             }
         present(alert, animated: true)
@@ -114,36 +122,20 @@ extension TaskListViewController {
         let cellIndex = IndexPath(row: taskList.count - 1, section: 0)
         tableView.insertRows(at: [cellIndex], with: .automatic)
         
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch let error {
-                print(error)
-            }
-        }
+        saveToContext()
     }
     
     private func updateTask(_ taskName: String, index: Int){
         taskList[index].title = taskName
         tableView.reloadData()
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch let error {
-                print(error.localizedDescription)
-            }
-        }
+        saveToContext()
     }
     
     private func deleteTask(at index: Int) {
         let taskToDelete = taskList[index]
         taskList.remove(at: index)
         context.delete(taskToDelete)
-        do {
-            try context.save()
-        } catch let error {
-            print(error.localizedDescription)
-        }
+        saveToContext()
     }
 }
 
@@ -155,9 +147,7 @@ extension TaskListViewController {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-}
-
-extension TaskListViewController {
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         taskList.count
     }
